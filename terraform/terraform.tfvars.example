@@ -1,0 +1,111 @@
+# =============================================================================
+# AWS Landing Zone Starter - Example Configuration
+# Copy this file to terraform.tfvars and update with your values
+# =============================================================================
+
+# AWS Region
+region = "us-east-1"
+
+# Default Tags
+default_tags = {
+  Environment = "Production"
+  Project     = "LandingZone"
+  ManagedBy   = "Terraform"
+  CostCenter  = "IT-Infrastructure"
+}
+
+# -----------------------------------------------------------------------------
+# Account Configuration
+# IMPORTANT: Each email must be unique and not associated with any AWS account
+# -----------------------------------------------------------------------------
+
+# Security Account (for GuardDuty, Security Hub, Config)
+security_account_email = "aws-security+yourdomain@example.com"
+
+# Log Archive Account (for CloudTrail, centralized logs)
+log_archive_account_email = "aws-logs+yourdomain@example.com"
+
+# Infrastructure Account (optional - for shared services)
+infrastructure_account_email = ""
+
+# Production Account (for production workloads)
+production_account_email = "aws-prod+yourdomain@example.com"
+
+# Non-Production Account (for dev/test/staging)
+non_production_account_email = "aws-dev+yourdomain@example.com"
+
+# -----------------------------------------------------------------------------
+# Security Controls
+# -----------------------------------------------------------------------------
+
+# Enable SCP to prevent accounts from leaving the organization
+enable_scp_deny_leave_org = true
+
+# Require MFA for all IAM users (recommended but can break automation)
+enable_scp_require_mfa = false
+
+# Deny access to specific AWS regions (compliance/data residency)
+enable_scp_deny_regions = false
+denied_regions          = [] # ["af-south-1", "ap-northeast-3"]
+
+# Require CloudTrail to be enabled in all accounts
+enable_scp_enable_cloudtrail = true
+
+# Enable GuardDuty for threat detection
+enable_guardduty = true
+
+# Enable Security Hub for security posture management
+enable_security_hub = true
+
+# Enable CIS AWS Foundations Benchmark
+enable_cis_standards = true
+
+# Enable AWS Foundational Security Best Practices
+enable_foundational_standards = true
+
+# Enable AWS Config for configuration compliance
+enable_config = true
+
+# -----------------------------------------------------------------------------
+# Networking
+# -----------------------------------------------------------------------------
+
+# VPC CIDR blocks (ensure no overlaps)
+security_vpc_cidr   = "10.0.0.0/16"
+production_vpc_cidr = "10.1.0.0/16"
+
+# Enable NAT Gateway for private subnet internet access (cost: ~$32/AZ/month)
+enable_nat_gateway = true
+
+# Create dedicated database subnets
+create_database_subnets = true
+
+# Enable VPC Flow Logs for network monitoring
+enable_flow_logs = true
+
+# -----------------------------------------------------------------------------
+# Logging
+# -----------------------------------------------------------------------------
+
+# Create multi-region CloudTrail
+create_cloudtrail = true
+cloudtrail_name   = "enterprise-trail"
+
+# Send CloudTrail logs to CloudWatch (enables real-time alerting)
+enable_cloudwatch_logs = true
+cloudwatch_retention_days = 365
+
+# Create KMS key for log encryption
+create_kms_key = true
+
+# Enable S3 object-level logging (additional cost, detailed auditing)
+enable_data_events = false
+
+# Create SNS topic for CloudTrail notifications
+create_sns_topic = true
+
+# S3 Lifecycle Policy (cost optimization)
+enable_lifecycle_policy = true
+ia_transition_days      = 90   # Move to Standard-IA after 90 days
+glacier_transition_days = 180  # Move to Glacier after 180 days
+expiration_days         = 2555 # Delete after 7 years (compliance)

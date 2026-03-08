@@ -1,0 +1,30 @@
+# Terraform files
+*.tfstate
+*.tfstate.lock
+*.tfstate.backup
+.terraform/
+.terraform.lock.hcl
+
+# Credentials
+*.tfvars
+!*.tfvars.example
+credentials
+*.credentials
+
+# AWS
+.DS_Store
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+logs/
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# OS
+Thumbs.db
